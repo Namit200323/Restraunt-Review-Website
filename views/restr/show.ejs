@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show</title>
+</head>
+<body>
+    <h1><%=rest.title%></h1>
+    <h2><%=rest.location%></h2>
+
+    <p>
+        <form action="/restr/<%=rest._id%>?_method=DELETE" method="post">
+            <button>delete</button>
+        </form>
+    </p>
+
+    <footer>
+    <p>
+        <a href="/restr/<%= rest._id %>/edit">Edit</a>
+    </p>
+        <a href="/restr">All restaurants</a>
+    </footer>
+</body>
+</html>
