@@ -5,6 +5,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Restr = require('./models/restr');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 
 main().catch(err => console.log(err));
 
@@ -17,6 +18,7 @@ async function main() {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
+app.engine('ejs',ejsMate)
 
 app.use(express.urlencoded());
 app.use(methodOverride('_method'));
@@ -62,6 +64,6 @@ app.delete('/restr/:id',async(req,res)=>{
     res.redirect('/restr');
 })
 
-app.listen(200,()=>{
+app.listen(201,()=>{
     console.log('Listening on port 200');
 })
