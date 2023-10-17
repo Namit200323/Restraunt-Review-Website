@@ -1,17 +1,32 @@
 <% layout('layout/boilerplate') %>
-    <h1>Edit details</h1>
-    <form action="/restr/<%=rest._id%>?_method=PUT" method="post">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="restr[title]" value="<%=rest.title %>">
+    <div class="row">
+        <h1 class="text-center">Edit Restaurant</h1>
+        <div class="col-6 offset-3">
+            <form action="/restr/<%=rest._id%>?_method=PUT" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="restr[title]" value="<%=rest.title %>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control" type="text" id="location" name="restr[location]" value="<%=rest.location%>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image Url</label>
+                    <input class="form-control" type="text" id="location" name="restr[image]" value="<%=rest.image%>">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea class="form-control" type="text" id="location" name="restr[image]"><%= rest.description %></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info">Update Restaurant</button>
+                </div>
+                <div>
+                    <a href="/restr">All restaurants</a>
+                </div>
+                
+            </form>
         </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="restr[location]" value="<%=rest.location%>">
-        </div>
-        <button>Submit</button>
-        <div>
-            <a href="/restr">All restaurants</a>
-        </div>
-        
-    </form>
+    </div>
+    

@@ -1,6 +1,8 @@
 <% layout('layout/boilerplate') %>
     <h1><%=rest.title%></h1>
     <h2><%=rest.location%></h2>
+    <img src="<%= rest.image %>" alt="">
+    <p><%= rest.description %></p>
 
     <p>
         <form action="/restr/<%=rest._id%>?_method=DELETE" method="post">

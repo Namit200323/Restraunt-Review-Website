@@ -1,17 +1,32 @@
 <% layout('layout/boilerplate') %>
-    <h1>New restaurant</h1>
-    <form action="/restr" method="post">
-        <div>
-            <label for="title">Title</label>
-            <input type="text" id="title" name="restr[title]">
-        </div>
-        <div>
-            <label for="location">Location</label>
-            <input type="text" id="location" name="restr[location]">
-        </div>
-        <button>Submit</button>
-        <div>
-            <a href="/restr">All restaurants</a>
-        </div>
-        
-    </form>
+<div class="row">
+    <h1 class="text-center">New Restaurant</h1>
+    <div class="col-6 offset-3">
+        <h1>New restaurant</h1>
+        <form action="/restr" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="restr[title]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="restr[location]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="location" name="restr[image]">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="location" name="restr[image]"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Submit</button>
+            </div>
+            <div>
+                <a href="/restr">All restaurants</a>
+            </div>
+            
+        </form>
+    </div>
+</div>
