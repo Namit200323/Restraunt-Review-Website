@@ -6,6 +6,12 @@ const RestrSchema = new Schema({
     image: String,
     description: String,
     location: String,
+    reviews : [
+        {
+            type : Schema.Types.ObjectId,
+            ref : 'Review'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Restr', RestrSchema);
