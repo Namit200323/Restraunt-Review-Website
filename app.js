@@ -4,8 +4,10 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const Restr = require('./models/restr');
+const Review = require('./models/review');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const review = require('./models/review');
 
 main().catch(err => console.log(err));
 
@@ -43,7 +45,7 @@ app.post('/restr',async(req,res)=>{
 })
 
 app.get('/restr/:id',async(req,res)=>{
-    const rest = await Restr.findById(req.params.id);
+    const rest = await Restr.findById(req.params.id).populate('reviews');
     res.render('restr/show',{rest});
 })
 
@@ -64,6 +66,22 @@ app.delete('/restr/:id',async(req,res)=>{
     res.redirect('/restr');
 })
 
-app.listen(203,()=>{
+app.post('/restr/:id/reviews',async(req,res)=>{
+    const  restr = await Restr.findById(req.params.id);
+    const review = new Review(req.body.review);
+    restr.reviews.push(review);
+    await review.save();
+    await restr.save();
+    res.redirect(`/restr/${restr._id}`);
+})
+
+app.delete('/restr/:id/reviews/:reviewId',async(req,res)=>{
+    const {id,reviewId} = req.params;
+    await Restr.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
+    await Review.findByIdAndDelete(req.params.reviewID);
+    res.redirect(`/restr/${id}`);
+})
+
+app.listen(204,()=>{
     console.log('Listening on port 200');
 })
