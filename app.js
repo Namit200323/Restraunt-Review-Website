@@ -7,7 +7,7 @@ const Restr = require('./models/restr');
 const Review = require('./models/review');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const review = require('./models/review');
+
 
 main().catch(err => console.log(err));
 
@@ -17,6 +17,9 @@ async function main() {
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
 
+
+const restr = require('./routes/restr');
+const review = require('./routes/review');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
@@ -29,59 +32,10 @@ app.get('/',(req,res)=>{
     res.render('home');
 })
 
-app.get('/restr',async(req,res)=>{
-    const rests = await Restr.find({});
-    res.render('restr/index',{rests})
-})
+app.use('/restr',restr); 
+app.use('/restr/:id/reviews',review); 
 
-app.get('/restr/new',(req,res)=>{
-    res.render('restr/new');
-})
 
-app.post('/restr',async(req,res)=>{
-    const restr = new Restr(req.body.restr);
-    await restr.save();
-    res.redirect(`/restr/${restr._id}`);
-})
-
-app.get('/restr/:id',async(req,res)=>{
-    const rest = await Restr.findById(req.params.id).populate('reviews');
-    res.render('restr/show',{rest});
-})
-
-app.get('/restr/:id/edit',async(req,res)=>{
-    const rest = await Restr.findById(req.params.id);
-    res.render('restr/edit',{rest});
-})
-
-app.put('/restr/:id',async(req,res)=>{
-    const {id} = req.params;
-    const restr = await Restr.findByIdAndUpdate(id,{...req.body.restr});
-    res.redirect(`/restr/${restr._id}`);
-})
-
-app.delete('/restr/:id',async(req,res)=>{
-    const {id} = req.params;
-    await Restr.findByIdAndDelete(id);
-    res.redirect('/restr');
-})
-
-app.post('/restr/:id/reviews',async(req,res)=>{
-    const  restr = await Restr.findById(req.params.id);
-    const review = new Review(req.body.review);
-    restr.reviews.push(review);
-    await review.save();
-    await restr.save();
-    res.redirect(`/restr/${restr._id}`);
-})
-
-app.delete('/restr/:id/reviews/:reviewId',async(req,res)=>{
-    const {id,reviewId} = req.params;
-    await Restr.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
-    await Review.findByIdAndDelete(req.params.reviewID);
-    res.redirect(`/restr/${id}`);
-})
-
-app.listen(204,()=>{
-    console.log('Listening on port 200');
+app.listen(205,()=>{
+    console.log('Listening on port 205');
 })
