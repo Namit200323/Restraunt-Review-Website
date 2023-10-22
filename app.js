@@ -5,10 +5,13 @@ const path = require('path');
 const mongoose = require('mongoose');
 const Restr = require('./models/restr');
 const Review = require('./models/review');
+const User = require('./models/user');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const localStrat = require('passport-local');
 
 
 main().catch(err => console.log(err));
@@ -42,7 +45,12 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrat(User.authenticate))
 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get('/',(req,res)=>{
     res.render('home');
@@ -56,6 +64,11 @@ app.use((req,res,next)=>{
 app.use('/restr',restr); 
 app.use('/restr/:id/reviews',review); 
 
+app.get('/fakeuser',async(req,res)=>{
+  const user = new User({email:'namit@gmail.com',username:'namit'})
+  const newUser = await User.register(user,'chicken')
+  res.send(newUser)
+})
 
 app.listen(205,()=>{
     console.log('Listening on port 205');

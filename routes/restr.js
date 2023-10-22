@@ -38,6 +38,7 @@ router.put('/:id',async(req,res)=>{
 router.delete('/:id',async(req,res)=>{
     const {id} = req.params;
     await Restr.findByIdAndDelete(id);
+    req.flash('success','Successfully deleted the restraunt!');
     res.redirect('/restr');
 })
 
