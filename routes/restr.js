@@ -14,6 +14,7 @@ router.get('/new',(req,res)=>{
 router.post('/',async(req,res)=>{
     const restr = new Restr(req.body.restr);
     await restr.save();
+    req.flash('success','Successfully made a new review!')
     res.redirect(`/restr/${restr._id}`);
 })
 
@@ -30,6 +31,7 @@ router.get('/:id/edit',async(req,res)=>{
 router.put('/:id',async(req,res)=>{
     const {id} = req.params;
     const restr = await Restr.findByIdAndUpdate(id,{...req.body.restr});
+    req.flash('success','Successfully edited the restraunt!')
     res.redirect(`/restr/${restr._id}`);
 })
 

@@ -7,6 +7,8 @@ const Restr = require('./models/restr');
 const Review = require('./models/review');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 
 main().catch(err => console.log(err));
@@ -18,6 +20,7 @@ async function main() {
 }
 
 
+
 const restr = require('./routes/restr');
 const review = require('./routes/review');
 
@@ -27,9 +30,27 @@ app.engine('ejs',ejsMate)
 
 app.use(express.urlencoded());
 app.use(methodOverride('_method'));
+app.use(express.static('public'));
+const sessionConfig = {
+  secret : 'secretshhhhh',
+  resave : false,
+  saveUninitialized  : true,
+  cookie : {
+    expires : Date.now() + 1000*60*60*24*7, // For week from now
+    maxAge: 1000*60*60*24*7
+  }
+}
+app.use(session(sessionConfig));
+app.use(flash());
+
 
 app.get('/',(req,res)=>{
     res.render('home');
+})
+
+app.use((req,res,next)=>{
+  res.locals.success = req.flash('success');
+  next();
 })
 
 app.use('/restr',restr); 
