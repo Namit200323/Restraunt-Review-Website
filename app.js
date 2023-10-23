@@ -26,6 +26,7 @@ async function main() {
 
 const restr = require('./routes/restr');
 const review = require('./routes/review');
+const user = require('./routes/users')
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'))
@@ -47,7 +48,7 @@ app.use(session(sessionConfig));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrat(User.authenticate))
+passport.use(new localStrat(User.authenticate()))
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -63,9 +64,10 @@ app.use((req,res,next)=>{
 
 app.use('/restr',restr); 
 app.use('/restr/:id/reviews',review); 
+app.use('/',user);
 
 app.get('/fakeuser',async(req,res)=>{
-  const user = new User({email:'namit@gmail.com',username:'namit'})
+  const user = new User({email:'namit1@gmail.com',username:'namit1'})
   const newUser = await User.register(user,'chicken')
   res.send(newUser)
 })
