@@ -58,6 +58,7 @@ app.get('/',(req,res)=>{
 })
 
 app.use((req,res,next)=>{
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   next();
 })
@@ -72,6 +73,6 @@ app.get('/fakeuser',async(req,res)=>{
   res.send(newUser)
 })
 
-app.listen(205,()=>{
-    console.log('Listening on port 205');
+app.listen(206,()=>{
+    console.log('Listening on port 206');
 })
