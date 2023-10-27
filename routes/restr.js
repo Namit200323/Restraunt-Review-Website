@@ -4,11 +4,17 @@ const Restr = require('../models/restr');
 const Review = require('../models/review');
 const {isLoggedIn} = require('../middleware')
 const restrs = require('../controllers/restr');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 
 router.route('/')
     .get(restrs.index)
-    .post(isLoggedIn,restrs.createRestr);
+    // .post(isLoggedIn,restrs.createRestr);
+    .post(upload.array('image'),(req,res)=>{
+        console.log(req.body,req.files)
+        res.send("It works")
+    })
 
 router.get('/new',isLoggedIn,restrs.renderNewForm);
 
