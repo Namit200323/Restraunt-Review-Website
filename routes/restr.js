@@ -5,7 +5,8 @@ const Review = require('../models/review');
 const {isLoggedIn} = require('../middleware')
 const restrs = require('../controllers/restr');
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const {storage}  = require('../cloudinary')
+const upload = multer({ storage })
 
 
 router.route('/')
