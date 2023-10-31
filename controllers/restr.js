@@ -11,8 +11,10 @@ module.exports.renderNewForm = (req,res)=>{
 
 module.exports.createRestr = async(req,res)=>{
     const restr = new Restr(req.body.restr);
+    restr.images= req.files.map(f=>({url:f.path,filename:f.filename}));
     restr.author = req.user._id;
     await restr.save();
+    console.log(restr)
     req.flash('success','Successfully made a new review!')
     res.redirect(`/restr/${restr._id}`);
 }

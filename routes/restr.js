@@ -13,8 +13,7 @@ router.route('/')
     .get(restrs.index)
     // .post(isLoggedIn,restrs.createRestr);
     .post(upload.array('image'),(req,res)=>{
-        console.log(req.body,req.files)
-        res.send("It works")
+        res.send('It works');
     })
 
 router.get('/new',isLoggedIn,restrs.renderNewForm);
