@@ -1,4 +1,7 @@
 const Restr = require('../models/restr');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geoCoder = mbxGeocoding({accessToken:mapBoxToken});
 
 module.exports.index = async(req,res)=>{
     const rests = await Restr.find({});
@@ -10,8 +13,13 @@ module.exports.renderNewForm = (req,res)=>{
 }
 
 module.exports.createRestr = async(req,res)=>{
-    const restr = new Restr(req.body.restr);
-    restr.images= req.files.map(f=>({url:f.path,filename:f.filename}));
+    const geodata = await geoCoder.forwardGeocode({
+        query :req.body.restr.location,
+        limit:1
+    }).send()
+      const restr = new Restr(req.body.restr);
+      restr.geometry = geodata.body.features[0].geometry;
+    // restr.images= req.files.map(f=>({url:f.path,filename:f.filename}));
     restr.author = req.user._id;
     await restr.save();
     console.log(restr)

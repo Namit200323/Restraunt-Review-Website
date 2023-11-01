@@ -11,10 +11,10 @@ const upload = multer({ storage })
 
 router.route('/')
     .get(restrs.index)
-    // .post(isLoggedIn,restrs.createRestr);
-    .post(upload.array('image'),(req,res)=>{
-        res.send('It works');
-    })
+    .post(isLoggedIn,restrs.createRestr);
+    // .post(upload.array('image'),(req,res)=>{
+    //     res.send('It works');
+    // })
 
 router.get('/new',isLoggedIn,restrs.renderNewForm);
 
